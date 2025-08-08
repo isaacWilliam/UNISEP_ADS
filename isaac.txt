@@ -1,1 +1,15 @@
-Arquivo criado com powershell
+git config --global user.name "Nome" -> Para criar um usuário no gitbash
+
+git config --global user.email "email@gmail.com" -> Para criar um email no gitbash, usar mesmo email do GitHub
+
+git config --global user.password "password" -> Para criar um senha no gitbash
+
+git clone httpDoRepositorio ou SSH -> Importar projeto que está no repositório remoto
+
+git status -> Para ver as alterações
+
+git add . -> Para adicionar os arquivos alterados ou criados
+
+git commit -m "Nome do commit" -> Adicionar arquivos para preparar o envio ao repositório remoto
+
+git push -> Para enviar os arquivos para o repositório
