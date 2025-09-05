@@ -13,37 +13,31 @@ app.get("/", (request, response) => {
 })
 
 app.get("/login", (request, response) => {
+    const usuarioCadastrado = listaUsuarios.find(u => request.body.usuario === u.usuario);
 
-    const usuarioRequest = request.body;
-
-    const usuarioCadastrado = listaUsuarios.find(u =>  usuarioRequest.usuario == u.usuario);
-    if(!usuarioCadastrado){
-        response.status(409).send({msg: "Username não encontrado!!", username: usuarioRequest.usuario});
-        return;
+    if (!usuarioCadastrado) {
+         return response.status(409).send({ msg: "Username não encontrado!!", username: request.body.usuario });
     }
 
-    if(usuarioCadastrado.senha != usuarioRequest.senha){
-        response.status(400).send({msg: "Senha inválida!!!", senha: usuarioRequest.senha});
-        return;
-    }
+    if (usuarioCadastrado.senha !== request.body.senha) {
+        return response.status(400).send({ msg: "Senha inválida!!!", senha: request.body.senha });
+}
 
-    response.status(200).send({msg: "Login realizado com sucesso!", usuario: usuarioCadastrado});
-})
+    return response.status(200).send({ msg: "Login realizado com sucesso!", usuario: usuarioCadastrado });
+});
 
 
 app.post("/cadastro", (request, response) => {
 
-    const novoUsuario = request.body;
-
-    const usarioExiste = listaUsuarios.find( u => u.username == novoUsuario.username);
+    const usarioExiste = listaUsuarios.find( u => u.username == request.body.username);
 
     if(usarioExiste){
-        response.status(409).send({msg: "Username já cadastrado!", username: novoUsuario.username});
+        response.status(409).send({msg: "Username já cadastrado!", username: request.body.username});
         return;
     }
 
-    listaUsuarios.push({...novoUsuario, id: listaUsuarios.length + 1});
-    response.status(201).send({msg: "Usuário cadastrado com sucesso!", usuario: novoUsuario});
+    listaUsuarios.push({...request.body, id: listaUsuarios.length + 1});
+    response.status(201).send({msg: "Usuário cadastrado com sucesso!", usuario: request.body});
 })
 
 app.listen(port, () => {
