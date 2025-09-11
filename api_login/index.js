@@ -12,7 +12,7 @@ app.get("/", (request, response) => {
     response.status(200).send(listaUsuarios);
 })
 
-app.get("/login", (request, response) => {
+app.post("/login", (request, response) => {
     const usuarioCadastrado = listaUsuarios.find(u => request.body.usuario === u.usuario);
 
     if (!usuarioCadastrado) {
@@ -20,8 +20,12 @@ app.get("/login", (request, response) => {
     }
 
     if (usuarioCadastrado.senha !== request.body.senha) {
-        return response.status(400).send({ msg: "Senha inválida!!!", senha: request.body.senha });
-}
+        return response.status(400).send({ msg: "Usuário ou senha inválida!!!", senha: request.body.senha });
+    }
+
+    if (usuarioCadastrado.username !== request.body.username) {
+        return response.status(400).send({ msg: "Usuário ou senha inválida!!!", senha: request.body.senha });
+    }
 
     return response.status(200).send({ msg: "Login realizado com sucesso!", usuario: usuarioCadastrado });
 });
